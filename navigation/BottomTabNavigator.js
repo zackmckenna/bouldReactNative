@@ -25,6 +25,13 @@ export default function BottomTabNavigator({ navigation, route }) {
         }}
       />
       <BottomTab.Screen
+        name="Climb"
+        component={ClimbScreen}
+        options={{
+          title: 'your climbs',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-checkmark-circle" />,
+        }}/>
+      <BottomTab.Screen
         name="Links"
         component={LinksScreen}
         options={{
