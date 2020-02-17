@@ -10,6 +10,7 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <Text style={styles.bould}>Bould.</Text>
+        <Text style={styles.subtitle}>a minimalist climbing app</Text>
       </ScrollView>
 
     </View>
@@ -58,10 +59,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  subtitle: {
+    textAlign: 'center',
+  },
   bould: {
     textAlign: 'center',
-    fontSize: 40,
-    fontWeight: 'bold'
+    fontSize: 70,
+    fontWeight: 'bold',
+    marginTop: 20,
   },
   developmentModeText: {
     marginBottom: 20,
