@@ -1,34 +1,41 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { campsites } from './campsites';
-import { comments } from './comments';
-import { promotions } from './promotions';
-import { partners } from './partners';
-import { favorites } from './favorites';
-import { climbs } from './climbs';
-import { persistStore, persistCombineReducers } from 'redux-persist';
-import storage from 'redux-persist/es/storage'
+import climbs from './climbs';
+// import { persistStore, persistCombineReducers } from 'redux-persist';
+// import storage from 'redux-persist/es/storage'
 
 const config = {
     key: 'root',
-    storage,
+    // storage,
     debug: true
 }
-export const ConfigureStore = () => {
-    const store = createStore(
-        persistCombineReducers(config, {
-            campsites,
-            comments,
-            partners,
-            promotions,
-            favorites,
-            climbs
-        }),
-        applyMiddleware(thunk, logger)
-    );
+// export const ConfigureStore = () => {
+//     const store = createStore(
+//         persistCombineReducers(config, {
+//             climbs
+//         }),
+//         applyMiddleware(thunk, logger)
+//     );
 
-    const persistor = persistStore(store)
+//     const persistor = persistStore(store)
 
-    return { persistor, store };
-}
+//     return { persistor, store };
+// }
+// export const ConfigureStore = () => {
+//     const store = createStore(
+//         combineReducers(config, {
+//             climbsReducer
+//         }),
+//         applyMiddleware(thunk, logger)
+//     );
+//     return { store };
+// }
+const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore)
+
+const reducer = combineReducers({
+    climbs
+})
+
+const configureStore = (initialState) => createStoreWithMiddleware(reducer, initialState)
+export default configureStore

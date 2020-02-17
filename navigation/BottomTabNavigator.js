@@ -20,7 +20,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Home"
         component={HomeScreen}
         options={{
-          title: 'Get Started',
+          title: 'Home',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-code-working" />,
         }}
       />
@@ -28,7 +28,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Climb"
         component={ClimbScreen}
         options={{
-          title: 'your climbs',
+          title: 'Climbs',
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-checkmark-circle" />,
         }}/>
       <BottomTab.Screen

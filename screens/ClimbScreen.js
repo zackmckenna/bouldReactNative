@@ -4,50 +4,44 @@ import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
 
-import { listClimbs } from '../redux/climbs'
+import { getClimbs } from '../redux/climbs'
 
 import { MonoText } from '../components/StyledText';
 
-const mapDispatchToProps = {
-  listClimbs: () => listClimbs
+const mapStateToProps = state => {
+  console.log(state)
+  return {
+    climbs: state.climbs
+  }
 }
 
-const ClimbScreen = () => {
+const mapDispatchToProps = {
+  // listClimbs: () => listClimbs,
+  getClimbs
+}
+
+const ClimbScreen = (props) => {
+
+  React.useEffect(() => {
+    props.getClimbs()
+  }, [])
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
-
-        </View>
-
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Open up the code for this screen:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>
-            Change any of the text, save the file, and your app will automatically reload.
-          </Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-          </TouchableOpacity>
+          <Text>Climbs</Text>
+          {props.climbs.climbs.map(climb => {
+            return (
+              <View>
+                <Text>{climb.result}</Text>
+                <Text>Set Difficulty: V{climb.setDifficulty}</Text>
+                <Text>Personal difficulty: {climb.personalDifficulty}</Text>
+              </View>
+            )
+          })}
         </View>
       </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-
-        <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>navigation/BottomTabNavigator.js</MonoText>
-        </View>
-      </View>
     </View>
   );
 }
@@ -178,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(ClimbScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(ClimbScreen)

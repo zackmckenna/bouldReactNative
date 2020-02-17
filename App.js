@@ -5,12 +5,12 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Provider, connect } from 'react-redux'
-import axios from 'axios'
-import axiosMiddleware from 'redux-axios-middleware'
-
+import { Provider } from 'react-redux'
+import configureStore from './redux/configureStore'
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
+
+const store = configureStore()
 
 const Stack = createStackNavigator();
 
@@ -27,7 +27,6 @@ export default function App(props) {
         SplashScreen.preventAutoHide();
         // Load our initial navigation state
         setInitialNavigationState(await getInitialState());
-
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
@@ -50,14 +49,16 @@ export default function App(props) {
   } else {
     console.log()
     return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
-          <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </View>
+      <Provider store={store}>
+        <View style={styles.container}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+            <Stack.Navigator>
+              <Stack.Screen name="Root" component={BottomTabNavigator} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </View>
+      </Provider>
     );
   }
 }
