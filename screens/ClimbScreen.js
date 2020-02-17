@@ -2,22 +2,22 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
+import { connect } from 'react-redux'
+
+import { listClimbs } from '../redux/climbs'
 
 import { MonoText } from '../components/StyledText';
 
-export default function ClimbScreen() {
+const mapDispatchToProps = {
+  listClimbs: () => listClimbs
+}
+
+const ClimbScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
+
         </View>
 
         <View style={styles.getStartedContainer}>
@@ -177,3 +177,5 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+export default connect(null, mapDispatchToProps)(ClimbScreen)
