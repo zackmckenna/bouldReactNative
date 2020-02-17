@@ -1,16 +1,44 @@
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { Input, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 
 import { MonoText } from '../components/StyledText';
 
 export default function HomeScreen() {
+  const [username, setUsername] = React.useState('')
+  const [password, setPassword] = React.useState('')
+
+  const handlePasswordChange = e => {
+    setPassword(e.target.value)
+  }
+
+  const handleUsernameChange = e => {
+    setUsername(e.target.value)
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <Text style={styles.bould}>Bould.</Text>
         <Text style={styles.subtitle}>a minimalist climbing app</Text>
+        <View style={styles.dotContainer}>
+          <View style={[styles.dot, styles.green]}></View>
+          <View style={[styles.dot, styles.blue]}></View>
+          <View style={[styles.dot, styles.red]}></View>
+          <View style={[styles.dot, styles.yellow]}></View>
+          <View style={[styles.dot, styles.black]}></View>
+          <View style={[styles.dot, styles.gray]}></View>
+        </View>
+        <View style={styles.login}>
+          <Input value={username} onChange={e => handleUsernameChange(e)}/>
+          <Text style={styles.inputLabel}>username</Text>
+          <Input value={password} onChange={e => handlePasswordChange(e)}/>
+          <Text style={styles.inputLabel}>password</Text>
+          <Button style={[styles.loginButton, styles.blue]} title='Login' onClick={e => handleLogin(e)}/>
+        </View>
       </ScrollView>
 
     </View>
@@ -55,12 +83,53 @@ function handleHelpPress() {
 }
 
 const styles = StyleSheet.create({
+  loginButton: {
+
+  },
+  inputLabel: {
+    textAlign: 'center'
+  },
+  login: {
+    marginTop: 80,
+    marginLeft: 30,
+    marginRight: 30
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
+  red: {
+    backgroundColor: '#E4572E'
+  },
+  blue: {
+    backgroundColor: '#17BEBB'
+  },
+  yellow: {
+    backgroundColor: '#FFC914'
+  },
+  black: {
+    backgroundColor: '#2E282A'
+  },
+  green: {
+    backgroundColor: '#76B041'
+  },
+  gray: {
+    backgroundColor: '#878E88'
+  },
   subtitle: {
     textAlign: 'center',
+  },
+  dot: {
+    height: 25,
+    width: 25,
+    backgroundColor: '#bbb',
+    borderRadius: 50,
+  },
+  dotContainer: {
+    marginTop: 20,
+    justifyContent: 'center',
+    display: 'flex',
+    flexDirection: 'row'
   },
   bould: {
     textAlign: 'center',
