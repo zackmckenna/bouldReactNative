@@ -1,22 +1,32 @@
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
-
+import { connect } from 'react-redux'
+import { loginUser } from '../redux/login'
 import { MonoText } from '../components/StyledText';
+import { connectAdvanced } from 'react-redux';
 
-export default function HomeScreen() {
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
-
-  const handlePasswordChange = e => {
-    setPassword(e.target.value)
+const mapStateToProps = state => {
+  console.log(state)
+  return {
+    climbs: state.climbs
   }
+}
 
-  const handleUsernameChange = e => {
-    setUsername(e.target.value)
+const mapDispatchToProps = {
+  loginUser
+}
+
+const HomeScreen = props => {
+  const [username, setUsername] = React.useState('username')
+  const [password, setPassword] = React.useState('password')
+
+  const handleLogin = () => {
+    console.log(username, password)
+    props.loginUser(username, password)
   }
 
   return (
@@ -33,11 +43,11 @@ export default function HomeScreen() {
           <View style={[styles.dot, styles.gray]}></View>
         </View>
         <View style={styles.login}>
-          <Input value={username} onChange={e => handleUsernameChange(e)}/>
+          <TextInput value={username} onChangeText={(username) => setUsername(username)}/>
           <Text style={styles.inputLabel}>username</Text>
-          <Input value={password} onChange={e => handlePasswordChange(e)}/>
+          <TextInput value={password} onChangeText={password => setPassword(password)}/>
           <Text style={styles.inputLabel}>password</Text>
-          <Button style={[styles.loginButton, styles.blue]} title='Login' onClick={e => handleLogin(e)}/>
+          <Button style={[styles.loginButton, styles.blue]} title='Login' onPress={() => handleLogin()}/>
         </View>
       </ScrollView>
 
@@ -220,3 +230,5 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

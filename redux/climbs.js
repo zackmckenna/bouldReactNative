@@ -1,9 +1,9 @@
 import { baseUrl } from '../constants/BaseUrl'
 
-export const GET_CLIMBS = 'bould/redux/climbs/LOAD';
-export const GET_CLIMBS_SUCCESS = 'bould/redux/climbs/LOAD_SUCCESS';
-export const GET_CLIMBS_FAIL = 'bould/redux/climbs/LOAD_FAIL';
-export const GET_CLIMBS_PENDING = 'bould/redux/climbs/LOAD_FAIL';
+export const GET_CLIMBS = 'bould/redux/climbs/GET_CLIMBS';
+export const GET_CLIMBS_SUCCESS = 'bould/redux/climbs/GET_CLIMBS_SUCCESS';
+export const GET_CLIMBS_FAIL = 'bould/redux/climbs/GET_CLIMBS_FAIL';
+export const GET_CLIMBS_PENDING = 'bould/redux/climbs/GET_CLIMBS_PENDING';
 
 
 export default function reducer(state = { climbs: [] }, action) {
