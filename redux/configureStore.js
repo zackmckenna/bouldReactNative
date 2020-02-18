@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import climbs from './climbs';
 import login from './login';
+import register from './register'
 // import { persistStore, persistCombineReducers } from 'redux-persist';
 // import storage from 'redux-persist/es/storage'
 
@@ -36,7 +37,8 @@ const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore)
 
 const reducer = combineReducers({
     climbs,
-    login
+    login,
+    register
 })
 
 const configureStore = (initialState) => createStoreWithMiddleware(reducer, initialState)

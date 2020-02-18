@@ -62,7 +62,7 @@ export const loginUser = (username, password) => dispatch => {
     .then(user => {
       dispatch(loginAuthSuccess(user))
     })
-    .catch(error => dispatch(getClimbsError(error)))
+    .catch(error => dispatch(loginAuthError(error)))
 }
 
 // export const addClimbs = climbs => ({

@@ -5,48 +5,49 @@ export const REGISTER_ACCOUNT_FAIL = 'bould/redux/login/REGISTER_ACCOUNT_FAIL';
 export const REGISTER_ACCOUNT_PENDING = 'bould/redux/login/REGISTER_ACCOUNT_PENDING';
 
 
-export default function reducer(state = { user: [] }, action) {
+export default function reducer(state = {}, action) {
   switch (action.type) {
-    case LOGIN_AUTH_PENDING:
+    case REGISTER_ACCOUNT_PENDING:
       return { ...state, loading: true };
-    case LOGIN_AUTH_SUCCESS:
-      return { ...state, loading: false, user: action.payload };
-    case LOGIN_AUTH_FAIL:
+    case REGISTER_ACCOUNT_SUCCESS:
+      return { ...state, error: null, loading: false, registered: true };
+    case REGISTER_ACCOUNT_FAIL:
       return {
         ...state,
         loading: false,
-        error: 'Error while authenticating user'
+        registered: false,
+        error: `Error while registering account: ${action.error}`
       };
     default:
       return state;
   }
 }
 
-export const loginAuthPending = () => {
+export const registerAccountPending = () => {
   return {
-    type: LOGIN_AUTH_PENDING
+    type: REGISTER_ACCOUNT_PENDING
   }
 }
 
-export const loginAuthSuccess = user => {
-  console.log('auth success user:', user)
+export const registerAccountSuccess = account => {
+  console.log('auth success user:', account)
   return {
-    type: LOGIN_AUTH_SUCCESS,
-    payload: user
+    type: REGISTER_ACCOUNT_SUCCESS,
+    payload: account
   }
 }
 
-export const loginAuthError = error => {
+export const registerAccountFail = error => {
   return {
-    type: LOGIN_AUTH_ERROR,
+    type: REGISTER_ACCOUNT_FAIL,
     error: error
   }
 }
 
-export const loginUser = (username, password) => dispatch => {
-    dispatch(loginAuthPending())
-    console.log('login user:', username, password)
-    return fetch(baseUrl + 'api/login', {
+export const registerAccount = (username, password, email) => dispatch => {
+    dispatch(registerAccountPending())
+    console.log('register user:', username, password, email)
+    return fetch(baseUrl + 'api/users', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -55,11 +56,18 @@ export const loginUser = (username, password) => dispatch => {
       body: JSON.stringify({
         username: username,
         password: password,
+        email: email
       }),
     })
-    .then(response => response.json())
-    .then(user => {
-      dispatch(loginAuthSuccess(user))
+    .then(response => {
+      if (response.status === 200) {
+        dispatch(registerAccountSuccess())
+      } else if (response.status === 400) {
+        dispatch(registerAccountFail(response))
+      }
     })
-    .catch(error => dispatch(getClimbsError(error)))
+    // .then(account => {
+    //   dispatch(registerAccountSuccess(account))
+    // })
+    .catch(error => dispatch(registerAccountFail(error)))
 }

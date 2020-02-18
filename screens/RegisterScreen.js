@@ -5,34 +5,38 @@ import { Input, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
-import { loginUser } from '../redux/login'
+import { registerAccount } from '../redux/register'
 import { MonoText } from '../components/StyledText';
 
 const mapStateToProps = state => {
   console.log(state)
   return {
-    climbs: state.climbs
+    climbs: state.climbs,
+    register: state.register
   }
 }
 
 const mapDispatchToProps = {
-  loginUser
+  registerAccount
 }
 
 const RegisterScreen = props => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [firstname, setFirstname] = React.useState('')
-  const [lastname, setLastname] = React.useState('')
   const [email, setEmail] = React.useState('')
 
 
   const handleLogin = () => {
     console.log(username, password)
-    props.loginUser(username, password)
+    props.registerAccount(username, password, email)
     setUsername('')
     setPassword('')
     setEmail('')
+    if (!props.register.error && props.register.registered){
+      props.navigation.navigate('Home')
+    } else {
+      console.log('error creating account')
+    }
   }
 
   return (

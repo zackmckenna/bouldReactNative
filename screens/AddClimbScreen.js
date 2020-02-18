@@ -1,116 +1,92 @@
 import * as React from 'react';
 import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, Button, Card, ListItem } from 'react-native-elements';
+import { Input, Button } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
-import { loginUser } from '../redux/login'
+import { registerAccount } from '../redux/register'
 import { MonoText } from '../components/StyledText';
-import { Avatar } from 'react-native-elements'
 
 const mapStateToProps = state => {
   console.log(state)
   return {
     climbs: state.climbs,
-    login: state.login
+    register: state.register
   }
 }
 
 const mapDispatchToProps = {
-  loginUser
+  registerAccount
 }
 
-const HomeScreen = props => {
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
+const AddClimbScreen = props => {
+  const [personalDifficulty, setPersonalDifficulty] = React.useState(0)
+  const [setDifficulty, setSetDifficulty] = React.useState(0)
+  const [result, setResult] = React.useState('')
+  const [completed, setCompleted] = React.useState(false)
+  const [note, setNote] = React.useState('')
 
   const handleLogin = () => {
     console.log(username, password)
-    props.loginUser(username, password)
+    props.registerAccount(username, password, email)
     setUsername('')
     setPassword('')
+    setEmail('')
+    if (!props.register.error && props.register.registered){
+      props.navigation.navigate('Home')
+    } else {
+      console.log('error creating account')
+    }
   }
 
-  if (!props.login.user.token){
-    return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <Text style={styles.bould}>Bould.</Text>
-          <Text style={styles.subtitle}>a minimalist climbing app</Text>
-          <View style={styles.dotContainer}>
-            <View style={[styles.dot, styles.green]}></View>
-            <View style={[styles.dot, styles.blue]}></View>
-            <View style={[styles.dot, styles.red]}></View>
-            <View style={[styles.dot, styles.yellow]}></View>
-            <View style={[styles.dot, styles.black]}></View>
-            <View style={[styles.dot, styles.gray]}></View>
-          </View>
-          <View style={styles.login}>
-            <TextInput
-              style={styles.input}
-              value={username}
-              onChangeText={(username) => setUsername(username)}
-            />
-            <Text style={styles.inputLabel}>username</Text>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={password => setPassword(password)}/>
-            <Text style={styles.inputLabel}>password</Text>
-            <Button
-              style={[styles.loginButton, styles.blue]}
-              title='Login'
-              onPress={() => handleLogin()}/>
-            <Text style={styles.createAccountLink} onPress={() => props.navigation.navigate('Register')}>create an account</Text>
-          </View>
-        </ScrollView>
-
-      </View>
-    )
-  } else {
-    return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <Avatar style={styles.avatar}
-            rounded
-            />
-          <Text style={styles.bould}>{props.login.user.username}</Text>
-            <Card containerStyle={{padding: 0}}>
-              <ListItem title='Climbs'/>
-              <ListItem title='Average Flash'/>
-            </Card>
-          <View style={styles.login}>
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        {/* <Text style={styles.bould}>Bould.</Text>
+        <Text style={styles.subtitle}>a minimalist climbing app</Text>
+        <View style={styles.dotContainer}>
+          <View style={[styles.dot, styles.green]}></View>
+          <View style={[styles.dot, styles.blue]}></View>
+          <View style={[styles.dot, styles.red]}></View>
+          <View style={[styles.dot, styles.yellow]}></View>
+          <View style={[styles.dot, styles.black]}></View>
+          <View style={[styles.dot, styles.gray]}></View>
+        </View> */}
+        <View style={styles.login}>
+          {/* <TextInput
+            style={styles.input}
+            value={username}
+            onChangeText={(username) => setUsername(username)}
+          />
+          <Text style={styles.inputLabel}>username</Text>
+          <TextInput
+            style={styles.input}
+            value={password}
+            onChangeText={password => setPassword(password)}/>
+          <Text style={styles.inputLabel}>password</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={email => setEmail(email)}/>
+          <Text style={styles.inputLabel}>email</Text> */}
           <Button
-              style={[styles.loginButton, styles.blue]}
-              title='Add Climb'
-              onPress={() => props.navigation.navigate('AddClimb')}/>
-          </View>
-        </ScrollView>
+            style={[styles.loginButton, styles.blue]}
+            title='Create Account'
+            onPress={() => handleLogin()}/>
+          {/* <Text style={styles.createAccountLink} onPress={() => navigation.navigate('Register')}>create an account</Text> */}
+        </View>
+      </ScrollView>
 
-      </View>
-    )
-  }
+    </View>
+  )
 }
 
-HomeScreen.navigationOptions = {
+AddClimbScreen.navigationOptions = {
   header: null,
 }
 
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/workflow/development-mode/');
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/get-started/create-a-new-app/#making-your-first-change'
-  );
-}
-
 const styles = StyleSheet.create({
-  // avatar: {
-  //   justifyContent: 'center'
-  // },
   createAccountLink: {
     marginTop: 20,
     textAlign: 'center',
@@ -259,4 +235,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(AddClimbScreen)

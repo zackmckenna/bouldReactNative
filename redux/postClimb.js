@@ -1,21 +1,17 @@
 import { baseUrl } from '../constants/BaseUrl'
 
-export const GET_CLIMBS = 'bould/redux/climbs/GET_CLIMBS';
-export const GET_CLIMBS_SUCCESS = 'bould/redux/climbs/GET_CLIMBS_SUCCESS';
-export const GET_CLIMBS_FAIL = 'bould/redux/climbs/GET_CLIMBS_FAIL';
-export const GET_CLIMBS_PENDING = 'bould/redux/climbs/GET_CLIMBS_PENDING';
-
-export const ADD_CLIMB_SUCCESS = 'bould/redux/climbs/ADD_CLIMB_SUCCESS';
-export const ADD_CLIMB_FAIL = 'bould/redux/climbs/ADD_CLIMB_FAIL';
-export const ADD_CLIMB_PENDING = 'bould/redux/climbs/ADD_CLIMB_FAIL';
+// export const POST_CLIMB = 'bould/redux/climbs/GET_CLIMBS';
+export const POST_CLIMB_SUCCESS = 'bould/redux/climbs/POST_CLIMB_SUCCESS';
+export const POST_CLIMB_FAIL = 'bould/redux/climbs/POST_CLIMB_FAIL';
+export const POST_CLIMB_PENDING = 'bould/redux/climbs/POST_CLIMB_PENDING';
 
 export default function reducer(state = { climbs: [] }, action) {
   switch (action.type) {
-    case GET_CLIMBS:
+    case POST_CLIMB_PENDING:
       return { ...state, loading: true };
-    case GET_CLIMBS_SUCCESS:
+    case POST_CLIMB_SUCCESS:
       return { ...state, loading: false, climbs: action.payload };
-    case GET_CLIMBS_FAIL:
+    case POST_CLIMB_FAIL:
       return {
         ...state,
         loading: false,

@@ -10,6 +10,7 @@ import configureStore from './redux/configureStore'
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 import RegisterScreen from './screens/RegisterScreen';
+import AddClimbScreen from './screens/AddClimbScreen';
 
 const store = configureStore()
 
@@ -57,7 +58,8 @@ export default function App(props) {
             <Stack.Navigator>
               <Stack.Screen name="Root" component={BottomTabNavigator} />
               <Stack.Screen name="Register" component={RegisterScreen} />
-            </Stack.Navigator>
+              <Stack.Screen name="AddClimb" component={AddClimbScreen} />
+             </Stack.Navigator>
           </NavigationContainer>
         </View>
       </Provider>
