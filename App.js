@@ -9,24 +9,25 @@ import { Provider } from 'react-redux'
 import configureStore from './redux/configureStore'
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
+import RegisterScreen from './screens/RegisterScreen';
 
 const store = configureStore()
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = React.useState(false);
-  const [initialNavigationState, setInitialNavigationState] = React.useState();
-  const containerRef = React.useRef();
-  const { getInitialState } = useLinking(containerRef);
+  const [isLoadingComplete, setLoadingComplete] = React.useState(false)
+  const [initialNavigationState, setInitialNavigationState] = React.useState()
+  const containerRef = React.useRef()
+  const { getInitialState } = useLinking(containerRef)
 
   // Load any resources or data that we need prior to rendering the app
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHide();
+        SplashScreen.preventAutoHide()
         // Load our initial navigation state
-        setInitialNavigationState(await getInitialState());
+        setInitialNavigationState(await getInitialState())
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
@@ -34,18 +35,18 @@ export default function App(props) {
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
-        console.warn(e);
+        console.warn(e)
       } finally {
-        setLoadingComplete(true);
-        SplashScreen.hide();
+        setLoadingComplete(true)
+        SplashScreen.hide()
       }
     }
 
-    loadResourcesAndDataAsync();
-  }, []);
+    loadResourcesAndDataAsync()
+  }, [])
 
   if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return null;
+    return null
   } else {
     console.log()
     return (
@@ -55,11 +56,12 @@ export default function App(props) {
           <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
             <Stack.Navigator>
               <Stack.Screen name="Root" component={BottomTabNavigator} />
+              <Stack.Screen name="Register" component={RegisterScreen} />
             </Stack.Navigator>
           </NavigationContainer>
         </View>
       </Provider>
-    );
+    )
   }
 }
 
@@ -68,4 +70,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-});
+})

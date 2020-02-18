@@ -48,8 +48,10 @@ function getHeaderTitle(route) {
 
   switch (routeName) {
     case 'Home':
-      return 'How to get started';
+      return 'Log In';
     case 'Links':
       return 'Links to learn more';
+    case 'Register':
+      return 'Create an account';
   }
 }

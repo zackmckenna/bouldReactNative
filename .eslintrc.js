@@ -4,22 +4,28 @@ module.exports = {
         "commonjs": true,
         "es6": true,
         "jest": true,
-        "node": true
+        "node": true,
+        "react-native/react-native": true
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/eslint-recommended"
+        // "plugin:@typescript-eslint/eslint-recommended"
     ],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
     },
-    "parser": "@typescript-eslint/parser",
+    "parser": "babel-eslint",
     "parserOptions": {
-        "ecmaVersion": 2018
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "plugins": [
-        "@typescript-eslint"
+        "react",
+        "react-native"
     ],
     "rules": {
         "indent": [
@@ -35,10 +41,7 @@ module.exports = {
             "error",
             "single"
         ],
-        "semi": [
-            "error",
-            "never"
-        ],
+        "semi": true,
         "no-trailing-spaces": "error",
         "object-curly-spacing": [
             "error", "always"

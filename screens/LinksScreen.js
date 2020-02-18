@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import * as WebBrowser from 'expo-web-browser';
-import { RectButton, ScrollView } from 'react-native-gesture-handler';
+import * as React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import * as WebBrowser from 'expo-web-browser'
+import { RectButton, ScrollView } from 'react-native-gesture-handler'
 
 export default function LinksScreen() {
   return (
@@ -26,7 +26,7 @@ export default function LinksScreen() {
         isLastOption
       />
     </ScrollView>
-  );
+  )
 }
 
 function OptionButton({ icon, label, onPress, isLastOption }) {
@@ -41,7 +41,7 @@ function OptionButton({ icon, label, onPress, isLastOption }) {
         </View>
       </View>
     </RectButton>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginTop: 1,
   },
-});
+})

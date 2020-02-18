@@ -19,21 +19,26 @@ const mapDispatchToProps = {
   loginUser
 }
 
-const HomeScreen = props => {
+const RegisterScreen = props => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [firstname, setFirstname] = React.useState('')
+  const [lastname, setLastname] = React.useState('')
+  const [email, setEmail] = React.useState('')
+
 
   const handleLogin = () => {
     console.log(username, password)
     props.loginUser(username, password)
     setUsername('')
     setPassword('')
+    setEmail('')
   }
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.bould}>Bould.</Text>
+        {/* <Text style={styles.bould}>Bould.</Text>
         <Text style={styles.subtitle}>a minimalist climbing app</Text>
         <View style={styles.dotContainer}>
           <View style={[styles.dot, styles.green]}></View>
@@ -42,7 +47,7 @@ const HomeScreen = props => {
           <View style={[styles.dot, styles.yellow]}></View>
           <View style={[styles.dot, styles.black]}></View>
           <View style={[styles.dot, styles.gray]}></View>
-        </View>
+        </View> */}
         <View style={styles.login}>
           <TextInput
             style={styles.input}
@@ -55,11 +60,16 @@ const HomeScreen = props => {
             value={password}
             onChangeText={password => setPassword(password)}/>
           <Text style={styles.inputLabel}>password</Text>
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={email => setEmail(email)}/>
+          <Text style={styles.inputLabel}>email</Text>
           <Button
             style={[styles.loginButton, styles.blue]}
-            title='Login'
+            title='Create Account'
             onPress={() => handleLogin()}/>
-          <Text style={styles.createAccountLink} onPress={() => props.navigation.navigate('Register')}>create an account</Text>
+          {/* <Text style={styles.createAccountLink} onPress={() => navigation.navigate('Register')}>create an account</Text> */}
         </View>
       </ScrollView>
 
@@ -67,18 +77,8 @@ const HomeScreen = props => {
   )
 }
 
-HomeScreen.navigationOptions = {
+RegisterScreen.navigationOptions = {
   header: null,
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/workflow/development-mode/');
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/get-started/create-a-new-app/#making-your-first-change'
-  );
 }
 
 const styles = StyleSheet.create({
@@ -230,4 +230,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen)
