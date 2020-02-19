@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native';
-import { ListItem } from 'react-native-elements'
+import { ListItem, Avatar } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
@@ -37,26 +37,39 @@ const ClimbScreen = (props) => {
     await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
   }
 
+  const makeTitle = difficulty => {
+    console.log(difficulty.toString())
+    return `V`
+  }
+
+  const VAvatar = climb => {
+    console.log(climb.climb.setDifficulty)
+    return (
+      <Avatar
+        size='small'
+        rounded
+        title={`V${climb.climb.setDifficulty}`}
+        />
+    )
+  }
+
+
   return (
     <View >
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View >
 
-          <Text styl={{ fontWeight: 'bold' }}>My Climbs</Text>
+          <ListItem title='My Climbs'/>
           {userClimbs.map((climb, index) => (
             <ListItem
+              leftAvatar={<VAvatar climb={climb}/>}
               key={index}
-              title={'V' + climb.setDifficulty}
+              title={climb.personalDifficulty}
               subtitle={climb.result}
               bottomDivider
+              chevron
             />
           ))}
-          <FlatList
-            keyExtractor={keyExtractor}
-            data={userClimbs}
-            renderItem={({item}) => <Text key={item.key}>{item.result}</Text>}
-            />
-          {console.log('userClimbs', userClimbs)}
         </View>
       </ScrollView>
     </View>
@@ -101,6 +114,12 @@ function handleHelpPress() {
 }
 
 const styles = StyleSheet.create({
+  dot: {
+    height: 25,
+    width: 25,
+    backgroundColor: '#bbb',
+    borderRadius: 50,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

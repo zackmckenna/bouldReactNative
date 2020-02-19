@@ -62,5 +62,7 @@ function getHeaderTitle(route) {
       return 'Links to learn more';
     case 'Register':
       return 'Create an account';
+    case 'AddClimb':
+      return 'Add a climb';
   }
 }
