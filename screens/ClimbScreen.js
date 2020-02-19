@@ -2,9 +2,10 @@ import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
+import VAvatar from '../components/VAvatar'
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
-import { descriptions } from '../constants/Descriptions'
+import descriptions from '../constants/Descriptions'
 
 import { getClimbs } from '../redux/climbs'
 
@@ -38,36 +39,6 @@ const ClimbScreen = (props) => {
     await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
   }
 
-  const makeTitle = difficulty => {
-    return `V${difficulty}`
-  }
-
-  const VAvatar = climb => {
-    const colorArray = [
-      '#17BEBB',
-      '#FFC914',
-      '#E4572E',
-      '#F95CC0',
-      '#EDDC21',
-      '#F28123',
-      '#38726C',
-      '#662C91',
-      '#542344',
-      '#EBF5EE',
-      '#7E7F9A'
-    ]
-
-    return (
-      <Avatar
-        overlayContainerStyle={{ backgroundColor: colorArray[climb.climb.setDifficulty]}}
-        size='small'
-        rounded
-        title={makeTitle(climb.climb.setDifficulty)}
-        />
-    )
-  }
-
-
   return (
     <View >
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -76,7 +47,7 @@ const ClimbScreen = (props) => {
           <ListItem title='My Climbs'/>
           {userClimbs.map((climb, index) => (
             <ListItem
-              leftAvatar={<VAvatar climb={climb}/>}
+              leftAvatar={<VAvatar difficulty={climb.setDifficulty}/>}
               key={index}
               title={climb.personalDifficulty}
               subtitle={climb.result}
@@ -115,16 +86,6 @@ function DevelopmentModeNotice() {
       </Text>
     );
   }
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/workflow/development-mode/');
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/get-started/create-a-new-app/#making-your-first-change'
-  );
 }
 
 const styles = StyleSheet.create({

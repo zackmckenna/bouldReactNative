@@ -3,6 +3,7 @@ import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View, A
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button, Rating, ButtonGroup } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
+import VAvatar from '../components/VAvatar'
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
 import { postClimb } from '../redux/climbs'
@@ -79,7 +80,9 @@ const AddClimbScreen = props => {
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.setDifficultyView}>
-          <Text style={styles.setDifficulty}>V{setDifficulty}</Text>
+          <View style={styles.setDifficulty}>
+            <VAvatar size={'medium'} difficulty={setDifficulty} />
+          </View>
           <Rating
             type='heart'
             ratingCount={11}
@@ -146,9 +149,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   setDifficulty: {
-    textAlign: 'center',
-    fontSize: 30,
-    fontWeight: 'bold'
+    alignItems: 'center'
   },
   createAccountLink: {
     marginTop: 20,

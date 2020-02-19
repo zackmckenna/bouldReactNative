@@ -29,10 +29,19 @@ const HomeScreen = props => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [userClimbs, setUserClimbs] = React.useState([])
+  const [averageFlashgrade, setAverageFlashgrade] = React.useState(0)
 
   React.useEffect(() => {
     props.getClimbs()
+    fetchAndSetUserClimbs()
   },[])
+
+  const fetchAndSetUserClimbs = async () => {
+    // await props.getClimbs()
+    const climbArray = props.climbs.climbs.map(climb => climb.user.id === props.login.user.id ? climb : null)
+    console.log(climbArray)
+    await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
