@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { TextInput,
+          Image,
+          Platform,
+          StyleSheet,
+          Text,
+          TouchableOpacity,
+          View,
+          ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button, Card, ListItem } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -11,7 +18,7 @@ import { MonoText } from '../components/StyledText';
 import { Avatar } from 'react-native-elements'
 import climbService from '../services/climb'
 import { AsyncStorage } from 'react-native'
-
+import { VictoryBar, VictoryChart, VictoryTheme } from 'victory-native'
 const mapStateToProps = state => {
   console.log(state)
   return {
@@ -114,6 +121,11 @@ const HomeScreen = props => {
               title='Add Climb'
               onPress={() => props.navigation.navigate('AddClimb')}/>
           </View>
+          <View style={styles.victoryContainer}>
+            <VictoryChart width={350} theme={VictoryTheme.material}>
+              <VictoryBar data={data} x="quarter" y="earnings" />
+            </VictoryChart>
+          </View>
         </ScrollView>
 
       </View>
@@ -139,6 +151,12 @@ const styles = StyleSheet.create({
   // avatar: {
   //   justifyContent: 'center'
   // },
+  victoryContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5fcff"
+  }
   createAccountLink: {
     marginTop: 20,
     textAlign: 'center',
