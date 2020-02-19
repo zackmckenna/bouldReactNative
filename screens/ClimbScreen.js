@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native';
-import { ListItem, Avatar } from 'react-native-elements'
+import { ListItem } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import VAvatar from '../components/VAvatar'
 import * as WebBrowser from 'expo-web-browser';
@@ -44,17 +44,25 @@ const ClimbScreen = (props) => {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View >
 
-          <ListItem title='My Climbs'/>
+          <Text styl={{ fontWeight: 'bold' }}>My Climbs</Text>
           {userClimbs.map((climb, index) => (
             <ListItem
+<<<<<<< HEAD
               leftAvatar={<VAvatar difficulty={climb.setDifficulty}/>}
+=======
+>>>>>>> parent of ee776a1... added dynamic avatars forclimbs
               key={index}
-              title={climb.personalDifficulty}
+              title={'V' + climb.setDifficulty}
               subtitle={climb.result}
               bottomDivider
-              chevron
             />
           ))}
+          <FlatList
+            keyExtractor={keyExtractor}
+            data={userClimbs}
+            renderItem={({item}) => <Text key={item.key}>{item.result}</Text>}
+            />
+          {console.log('userClimbs', userClimbs)}
         </View>
       </ScrollView>
     </View>
@@ -89,12 +97,6 @@ function DevelopmentModeNotice() {
 }
 
 const styles = StyleSheet.create({
-  dot: {
-    height: 25,
-    width: 25,
-    backgroundColor: '#bbb',
-    borderRadius: 50,
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
