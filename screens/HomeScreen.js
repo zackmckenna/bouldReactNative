@@ -148,15 +148,6 @@ function handleHelpPress() {
 }
 
 const styles = StyleSheet.create({
-  // avatar: {
-  //   justifyContent: 'center'
-  // },
-  victoryContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f5fcff"
-  }
   createAccountLink: {
     marginTop: 20,
     textAlign: 'center',
