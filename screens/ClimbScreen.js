@@ -4,6 +4,7 @@ import { ListItem, Avatar } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
+import { descriptions } from '../constants/Descriptions'
 
 import { getClimbs } from '../redux/climbs'
 
@@ -38,17 +39,30 @@ const ClimbScreen = (props) => {
   }
 
   const makeTitle = difficulty => {
-    console.log(difficulty.toString())
-    return `V`
+    return `V${difficulty}`
   }
 
   const VAvatar = climb => {
-    console.log(climb.climb.setDifficulty)
+    const colorArray = [
+      '#17BEBB',
+      '#FFC914',
+      '#E4572E',
+      '#F95CC0',
+      '#EDDC21',
+      '#F28123',
+      '#38726C',
+      '#662C91',
+      '#542344',
+      '#EBF5EE',
+      '#7E7F9A'
+    ]
+
     return (
       <Avatar
+        overlayContainerStyle={{ backgroundColor: colorArray[climb.climb.setDifficulty]}}
         size='small'
         rounded
-        title={`V${climb.climb.setDifficulty}`}
+        title={makeTitle(climb.climb.setDifficulty)}
         />
     )
   }
