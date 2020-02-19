@@ -18,7 +18,7 @@ import { MonoText } from '../components/StyledText';
 import { Avatar } from 'react-native-elements'
 import climbService from '../services/climb'
 import { AsyncStorage } from 'react-native'
-import { VictoryBar, VictoryChart, VictoryTheme } from 'victory-native'
+
 const mapStateToProps = state => {
   console.log(state)
   return {
@@ -120,11 +120,6 @@ const HomeScreen = props => {
               style={[styles.loginButton, styles.blue]}
               title='Add Climb'
               onPress={() => props.navigation.navigate('AddClimb')}/>
-          </View>
-          <View style={styles.victoryContainer}>
-            <VictoryChart width={350} theme={VictoryTheme.material}>
-              <VictoryBar data={data} x="quarter" y="earnings" />
-            </VictoryChart>
           </View>
         </ScrollView>
 

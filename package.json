@@ -41,8 +41,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "typescript": "^3.7.5",
-    "victory-native": "^34.1.0"
+    "typescript": "^3.7.5"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

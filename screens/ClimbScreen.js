@@ -47,10 +47,7 @@ const ClimbScreen = (props) => {
           <Text styl={{ fontWeight: 'bold' }}>My Climbs</Text>
           {userClimbs.map((climb, index) => (
             <ListItem
-<<<<<<< HEAD
               leftAvatar={<VAvatar difficulty={climb.setDifficulty}/>}
-=======
->>>>>>> parent of ee776a1... added dynamic avatars forclimbs
               key={index}
               title={'V' + climb.setDifficulty}
               subtitle={climb.result}
