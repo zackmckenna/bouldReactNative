@@ -15,7 +15,7 @@ export default function reducer(state = { climbs: [] }, action) {
     case POST_CLIMB_PENDING:
       return { ...state, postClimbPending: true };
     case POST_CLIMB_SUCCESS:
-      return { ...state, climbPosted: action.payload, postClimbPending: false };
+      return { ...state, climbs: [...state.climbs, action.payload], climbPosted: action.payload, postClimbPending: false };
     case POST_CLIMB_FAIL:
       return {
         ...state,
@@ -90,6 +90,7 @@ export const getClimbsPending = () => {
 }
 
 export const getClimbsSuccess = climbs => {
+  console.log('get climbs success', climbs)
   return {
     type: GET_CLIMBS_SUCCESS,
     payload: climbs

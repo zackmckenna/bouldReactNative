@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button, Rating, ButtonGroup } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -108,6 +108,7 @@ const AddClimbScreen = props => {
               title='Add Climb'
               onPress={() => handleAddClimb()}/>
         </View>
+        {props.climbs.postClimbPending ? <ActivityIndicator size='large' color='#0000ff'/> : null}
       </ScrollView>
     </View>
   )

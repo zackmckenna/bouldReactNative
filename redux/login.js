@@ -7,9 +7,18 @@ export const LOGIN_AUTH_SUCCESS = 'bould/redux/login/LOGIN_AUTH_SUCCESS';
 export const LOGIN_AUTH_FAIL = 'bould/redux/login/LOGIN_AUTH_FAIL';
 export const LOGIN_AUTH_PENDING = 'bould/redux/login/LOGIN_AUTH_PENDING';
 
+export const LOGOUT_PENDING = 'bould/redux/login/LOGOUT_PENDING';
+export const LOGOUT_SUCCESS = 'bould/redux/login/LOGOUT_SUCCESS';
+export const LOGOUT_FAIL = 'bould/redux/login/LOGOUT_FAIL';
 
 export default function reducer(state = { user: [] }, action) {
   switch (action.type) {
+    case LOGOUT_PENDING:
+      return {...state, logoutPending: true }
+    case LOGOUT_SUCCESS:
+      return {...state, logoutPending: false, user: null }
+    case LOGOUT_FAIL:
+      return {...state, error: action.error }
     case LOGIN_AUTH_PENDING:
       return { ...state, loading: true };
     case LOGIN_AUTH_SUCCESS:
@@ -22,6 +31,24 @@ export default function reducer(state = { user: [] }, action) {
       };
     default:
       return state;
+  }
+}
+
+export const logoutSuccess = () => {
+  return {
+    type: LOGOUT_SUCCESS
+  }
+}
+export const logoutPending = () => {
+  return {
+    type: LOGOUT_PENDING
+  }
+}
+
+export const logoutFail = (error) => {
+  return {
+    type: LOGOUT_FAIL,
+    error: error
   }
 }
 
@@ -45,6 +72,15 @@ export const loginAuthFail = error => {
     type: LOGIN_AUTH_FAIL,
     error: error
   }
+}
+
+export const logoutUser = async () => {
+  dispatch(logoutPending())
+  await AsyncStorage.setItem('loggedAppUser', null )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => dispatch(logoutFail(error)))
 }
 
 export const loginUser = (username, password) => dispatch => {

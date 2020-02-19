@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Flatlist } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, FlatList} from 'react-native';
+import { ListItem } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
@@ -23,15 +24,38 @@ const mapDispatchToProps = {
 const ClimbScreen = (props) => {
   const [userClimbs, setUserClimbs] = React.useState([])
 
-  React.useEffect(async () => {
-    await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
+  React.useEffect(() => {
+    fetchAndSetUserClimbs()
   }, [])
 
+  const keyExtractor = (item, index) => index.toString()
+
+  const fetchAndSetUserClimbs = async () => {
+    // await props.getClimbs()
+    const climbArray = props.climbs.climbs.map(climb => climb.user.id === props.login.user.id ? climb : null)
+    console.log(climbArray)
+    await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
+  }
+
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Text>My Climbs</Text>
+    <View >
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View >
+
+          <Text styl={{ fontWeight: 'bold' }}>My Climbs</Text>
+          {userClimbs.map((climb, index) => (
+            <ListItem
+              key={index}
+              title={'V' + climb.setDifficulty}
+              subtitle={climb.result}
+              bottomDivider
+            />
+          ))}
+          <FlatList
+            keyExtractor={keyExtractor}
+            data={userClimbs}
+            renderItem={({item}) => <Text key={item.key}>{item.result}</Text>}
+            />
           {console.log('userClimbs', userClimbs)}
         </View>
       </ScrollView>

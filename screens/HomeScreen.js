@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button, Card, ListItem } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -81,6 +81,7 @@ const HomeScreen = props => {
               onPress={(e) => handleLogin(e)}/>
             <Text style={styles.createAccountLink} onPress={() => props.navigation.navigate('Register')}>create an account</Text>
           </View>
+          {props.login.loading ? <ActivityIndicator size='large' color='#0000ff'/> : null}
         </ScrollView>
 
       </View>

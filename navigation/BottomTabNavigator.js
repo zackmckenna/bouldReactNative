@@ -39,6 +39,15 @@ export default function BottomTabNavigator({ navigation, route }) {
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
         }}
       />
+      {/* <BottomTab.Screen
+        onPress={() => console.log('clicked')}
+        name='Logout'
+        component={HomeScreen}
+        options={{
+          title:'Logout',
+          tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="md-book" />,
+        }}
+        /> */}
     </BottomTab.Navigator>
   );
 }
