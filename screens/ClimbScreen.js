@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Flatlist } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
@@ -9,9 +9,9 @@ import { getClimbs } from '../redux/climbs'
 import { MonoText } from '../components/StyledText';
 
 const mapStateToProps = state => {
-  console.log(state)
   return {
-    climbs: state.climbs
+    climbs: state.climbs,
+    login: state.login
   }
 }
 
@@ -21,25 +21,18 @@ const mapDispatchToProps = {
 }
 
 const ClimbScreen = (props) => {
+  const [userClimbs, setUserClimbs] = React.useState([])
 
-  React.useEffect(() => {
-    props.getClimbs()
+  React.useEffect(async () => {
+    await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
   }, [])
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
-          <Text>Climbs</Text>
-          {props.climbs.climbs.map(climb => {
-            return (
-              <View>
-                <Text>{climb.result}</Text>
-                <Text>Set Difficulty: V{climb.setDifficulty}</Text>
-                <Text>Personal difficulty: {climb.personalDifficulty}</Text>
-              </View>
-            )
-          })}
+          <Text>My Climbs</Text>
+          {console.log('userClimbs', userClimbs)}
         </View>
       </ScrollView>
     </View>

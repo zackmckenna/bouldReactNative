@@ -6,8 +6,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
 import { loginUser } from '../redux/login'
+import { getClimbs } from '../redux/climbs'
 import { MonoText } from '../components/StyledText';
 import { Avatar } from 'react-native-elements'
+import climbService from '../services/climb'
+import { AsyncStorage } from 'react-native'
 
 const mapStateToProps = state => {
   console.log(state)
@@ -18,16 +21,30 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-  loginUser
+  loginUser,
+  getClimbs
 }
 
 const HomeScreen = props => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [userClimbs, setUserClimbs] = React.useState([])
 
-  const handleLogin = () => {
-    console.log(username, password)
-    props.loginUser(username, password)
+  React.useEffect(() => {
+    props.getClimbs()
+  },[])
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try{
+      console.log(username, password)
+      await props.loginUser(username, password)
+      // climbService.setToken(props.login.user.token)
+      await AsyncStorage.setItem('loggedAppUser', props.login.user)
+      await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
+    } catch (error){
+      console.log(error)
+    }
     setUsername('')
     setPassword('')
   }
@@ -61,7 +78,7 @@ const HomeScreen = props => {
             <Button
               style={[styles.loginButton, styles.blue]}
               title='Login'
-              onPress={() => handleLogin()}/>
+              onPress={(e) => handleLogin(e)}/>
             <Text style={styles.createAccountLink} onPress={() => props.navigation.navigate('Register')}>create an account</Text>
           </View>
         </ScrollView>
@@ -77,8 +94,9 @@ const HomeScreen = props => {
             />
           <Text style={styles.bould}>{props.login.user.username}</Text>
             <Card containerStyle={{padding: 0}}>
-              <ListItem title='Climbs'/>
-              <ListItem title='Average Flash'/>
+              <Text>Climbs: {userClimbs.length}</Text>
+              {/* {props.login.user ? <Text>{props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id)}</Text> : null} */}
+              <Text>Average Flash Grade: </Text>
             </Card>
           <View style={styles.login}>
           <Button

@@ -1,83 +1,114 @@
 import * as React from 'react';
 import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, Button } from 'react-native-elements';
+import { Input, Button, Rating, ButtonGroup } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
-import { registerAccount } from '../redux/register'
+import { postClimb } from '../redux/climbs'
 import { MonoText } from '../components/StyledText';
 
 const mapStateToProps = state => {
   console.log(state)
   return {
     climbs: state.climbs,
-    register: state.register
+    register: state.register,
+    login: state.login
   }
 }
 
 const mapDispatchToProps = {
-  registerAccount
+  postClimb
 }
 
 const AddClimbScreen = props => {
   const [personalDifficulty, setPersonalDifficulty] = React.useState(0)
   const [setDifficulty, setSetDifficulty] = React.useState(0)
-  const [result, setResult] = React.useState('')
+  const [resultButtonIndex, setResultButtonIndex] = React.useState(3)
   const [completed, setCompleted] = React.useState(false)
   const [note, setNote] = React.useState('')
+  const [difficultyButtonIndex, setDifficultyButtonIndex] = React.useState(0)
 
-  const handleLogin = () => {
-    console.log(username, password)
-    props.registerAccount(username, password, email)
-    setUsername('')
-    setPassword('')
-    setEmail('')
-    if (!props.register.error && props.register.registered){
+  const handleAddClimb= () => {
+    if (resultButtonIndex < 3){
+      setCompleted(true)
+    }
+    console.log(setDifficulty, difficultyButtonIndex, resultButtonIndex, completed)
+    const newClimb = {
+      setDifficulty: setDifficulty,
+      personalDifficulty: difficultyButtonIndex,
+      result: resultButtons[resultButtonIndex],
+      completed: completed,
+      userId: props.login.user.id
+    }
+    props.postClimb(newClimb)
+    if (props.climbs.climbPosted){
       props.navigation.navigate('Home')
     } else {
-      console.log('error creating account')
+      console.log('error adding climb')
     }
   }
+
+  const setRatingCompleted = rating => {
+    console.log('rating function')
+    console.log(`rating ${rating}`)
+    setSetDifficulty(rating)
+    console.log('personal:', personalDifficulty)
+  }
+
+  const difficultyButtons = [
+    '--', '-', '=', '+', '++'
+  ]
+
+  const resultButtons = [
+    'onsight','flash','redpoint','attempt'
+  ]
+
+  const buttonDescription = [
+    'Very Easy', 'Easy', 'Neutral', 'Hard', 'Very Hard'
+  ]
+
+  // const setRatingCompleted = rating => {
+  //   console.log('rating function')
+  //   console.log(`rating ${rating}`)
+  //   setSetDifficulty(rating)
+  //   console.log('personal:', personalDifficulty)
+  // }
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {/* <Text style={styles.bould}>Bould.</Text>
-        <Text style={styles.subtitle}>a minimalist climbing app</Text>
-        <View style={styles.dotContainer}>
-          <View style={[styles.dot, styles.green]}></View>
-          <View style={[styles.dot, styles.blue]}></View>
-          <View style={[styles.dot, styles.red]}></View>
-          <View style={[styles.dot, styles.yellow]}></View>
-          <View style={[styles.dot, styles.black]}></View>
-          <View style={[styles.dot, styles.gray]}></View>
-        </View> */}
-        <View style={styles.login}>
-          {/* <TextInput
-            style={styles.input}
-            value={username}
-            onChangeText={(username) => setUsername(username)}
-          />
-          <Text style={styles.inputLabel}>username</Text>
-          <TextInput
-            style={styles.input}
-            value={password}
-            onChangeText={password => setPassword(password)}/>
-          <Text style={styles.inputLabel}>password</Text>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={email => setEmail(email)}/>
-          <Text style={styles.inputLabel}>email</Text> */}
-          <Button
-            style={[styles.loginButton, styles.blue]}
-            title='Create Account'
-            onPress={() => handleLogin()}/>
-          {/* <Text style={styles.createAccountLink} onPress={() => navigation.navigate('Register')}>create an account</Text> */}
+        <View style={styles.setDifficultyView}>
+          <Text style={styles.setDifficulty}>V{setDifficulty}</Text>
+          <Rating
+            type='heart'
+            ratingCount={11}
+            imageSize={30}
+            onStartRating
+            onFinishRating={rating => setRatingCompleted(rating)}
+            />
+        </View>
+        <View style={styles.personalDifficultyView}>
+          <Text style={styles.personalDifficultyText}>Personal Difficulty: {buttonDescription[difficultyButtonIndex]}</Text>
+          <ButtonGroup
+            onPress={(index) => setDifficultyButtonIndex(index)}
+            selectedIndex={difficultyButtonIndex}
+            buttons={difficultyButtons}/>
+        </View>
+        <View style={styles.personalDifficultyView}>
+          <Text style={styles.personalDifficultyText}>Result: {resultButtons[resultButtonIndex]}</Text>
+          <ButtonGroup
+            onPress={(index) => setResultButtonIndex(index)}
+            selectedIndex={resultButtonIndex}
+            buttons={resultButtons}/>
+        </View>
+        <View style={styles.addClimbButtonView}>
+        <Button
+              style={styles.addClimbButton}
+              title='Add Climb'
+              onPress={() => handleAddClimb()}/>
         </View>
       </ScrollView>
-
     </View>
   )
 }
@@ -87,6 +118,37 @@ AddClimbScreen.navigationOptions = {
 }
 
 const styles = StyleSheet.create({
+  result: {
+
+  },
+  resultText: {
+
+  },
+  resultView: {
+
+  },
+  personalDifficulty: {
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 'bold'
+  },
+  personalDifficultyText: {
+    textAlign: 'center'
+  },
+  personalDifficultyView: {
+    marginTop: 30
+  },
+  setDifficultyView: {
+
+  },
+  setDifficultyText: {
+    textAlign: 'center'
+  },
+  setDifficulty: {
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 'bold'
+  },
   createAccountLink: {
     marginTop: 20,
     textAlign: 'center',
@@ -96,8 +158,10 @@ const styles = StyleSheet.create({
     borderBottomColor: '#000000',
     borderBottomWidth: 1
   },
-  loginButton: {
-    paddingTop: 30
+  addClimbButtonView: {
+    marginTop: 30,
+    marginLeft: 10,
+    marginRight: 10
   },
   inputLabel: {
     textAlign: 'center',

@@ -32,7 +32,7 @@ const RegisterScreen = props => {
     setUsername('')
     setPassword('')
     setEmail('')
-    if (!props.register.error && props.register.registered){
+    if (!props.register.error){
       props.navigation.navigate('Home')
     } else {
       console.log('error creating account')
@@ -69,10 +69,12 @@ const RegisterScreen = props => {
             value={email}
             onChangeText={email => setEmail(email)}/>
           <Text style={styles.inputLabel}>email</Text>
-          <Button
-            style={[styles.loginButton, styles.blue]}
-            title='Create Account'
-            onPress={() => handleLogin()}/>
+          <View style={{ marginLeft: 20, marginRight: 20 }}>
+            <Button
+              style={[styles.loginButton, styles.blue]}
+              title='Create Account'
+              onPress={() => handleLogin()}/>
+          </View>
           {/* <Text style={styles.createAccountLink} onPress={() => navigation.navigate('Register')}>create an account</Text> */}
         </View>
       </ScrollView>
@@ -92,14 +94,19 @@ const styles = StyleSheet.create({
     color: '#17BEBB'
   },
   input: {
+    marginLeft: 20,
+    marginRight:20,
     borderBottomColor: '#000000',
     borderBottomWidth: 1
   },
   loginButton: {
-    paddingTop: 30
+    paddingTop: 30,
   },
   inputLabel: {
-    textAlign: 'center',
+    fontWeight: 'bold',
+    marginRight:20,
+    marginLeft:20,
+    // textAlign: 'center',
     marginBottom: 20
   },
   login: {

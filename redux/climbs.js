@@ -1,5 +1,5 @@
 import { baseUrl } from '../constants/BaseUrl'
-import { tokenToString } from 'typescript';
+import climbService from '../services/climb'
 
 export const GET_CLIMBS = 'bould/redux/climbs/GET_CLIMBS';
 export const GET_CLIMBS_SUCCESS = 'bould/redux/climbs/GET_CLIMBS_SUCCESS';
@@ -15,12 +15,12 @@ export default function reducer(state = { climbs: [] }, action) {
     case POST_CLIMB_PENDING:
       return { ...state, postClimbPending: true };
     case POST_CLIMB_SUCCESS:
-      return { ...state, postClimbPending: false };
+      return { ...state, climbPosted: action.payload, postClimbPending: false };
     case POST_CLIMB_FAIL:
       return {
         ...state,
         postClimbPending: false,
-        error: 'Error posting'
+        error: `Error posting: ${action.error}`
       };
     case GET_CLIMBS:
       return { ...state, loading: true };
@@ -57,28 +57,29 @@ export const postClimbFail = error => {
   }
 }
 
-export const postClimb = () => dispatch => {
+export const postClimb = (climb) => dispatch => {
+  console.log('climb', climb)
   dispatch(postClimbPending())
-  return fetch(baseUrl + 'api/climbs', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      personalDifficulty: personalDifficulty,
-      setDifficulty: setDifficulty,
-      result: result,
-      note: note,
-      completed: completed,
-      token: token
-    }),
-  })
-  .then(response => response.json())
+  climbService.create(climb)
+  // return fetch(baseUrl + 'api/climbs', {
+  //   method: 'POST',
+  //   headers: {
+  //     Accept: 'application/json',
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     personalDifficulty: personalDifficulty,
+  //     setDifficulty: setDifficulty,
+  //     result: result,
+  //     note: note ? note : '',
+  //     completed: completed
+  //   }),
+  // })
+  .then(response => response)
   .then(climb => {
     dispatch(postClimbSuccess(climb))
   })
-  .catch(error => dispatch(postClimbError(error)))
+  .catch(error => dispatch(postClimbFail(error)))
 }
 
 
@@ -95,27 +96,21 @@ export const getClimbsSuccess = climbs => {
   }
 }
 
-export const getClimbsError = error => {
+export const getClimbsFail = error => {
   return {
-    type: GET_CLIMBS_ERROR,
+    type: GET_CLIMBS_FAIL,
     error: error
   }
 }
 
 export const getClimbs = () => dispatch => {
     dispatch(getClimbsPending())
-    return fetch(baseUrl + 'api/climbs', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(climbs => {
-      dispatch(climbsInit(climbs))
-    })
-    .catch(error => dispatch(getClimbsError(error)))
+    climbService.getAll()
+      .then(response => response.data)
+      .then(climbs => {
+        dispatch(climbsInit(climbs))
+      })
+      .catch(error => dispatch(getClimbsFail(error)))
 }
 
 export const climbsInit = climbs => ({

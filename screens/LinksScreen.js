@@ -9,20 +9,26 @@ export default function LinksScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <OptionButton
         icon="md-school"
-        label="Read the Expo documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://docs.expo.io')}
+        label="Read up on boulder grading"
+        onPress={() => WebBrowser.openBrowserAsync('https://www.99boulders.com/bouldering-grades')}
+      />
+
+      <OptionButton
+        icon="md-school"
+        label="Read up on top-route grading"
+        onPress={() => WebBrowser.openBrowserAsync('https://sportrock.com/understanding-climbing-grades/')}
       />
 
       <OptionButton
         icon="md-compass"
-        label="Read the React Navigation documentation"
-        onPress={() => WebBrowser.openBrowserAsync('https://reactnavigation.org')}
+        label="Handy climbing knot guide"
+        onPress={() => WebBrowser.openBrowserAsync('https://www.rei.com/learn/expert-advice/climbing-knots.html')}
       />
 
       <OptionButton
-        icon="ios-chatboxes"
-        label="Ask a question on the forums"
-        onPress={() => WebBrowser.openBrowserAsync('https://forums.expo.io')}
+        icon="ios-school"
+        label="Guide for climbing anchor safety"
+        onPress={() => WebBrowser.openBrowserAsync('https://www.rei.com/media/1f544137-bc02-40cf-913a-782c511dd817')}
         isLastOption
       />
     </ScrollView>
