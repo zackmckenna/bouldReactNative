@@ -1,6 +1,7 @@
 import { baseUrl } from '../constants/BaseUrl'
 import loginService from '../services/login'
 import climbService from '../services/climb'
+import { AsyncStorage } from 'react-native'
 
 export const LOGIN_AUTH_SET= 'bould/redux/login/LOGIN_AUTH_SET';
 export const LOGIN_AUTH_SUCCESS = 'bould/redux/login/LOGIN_AUTH_SUCCESS';
@@ -74,12 +75,10 @@ export const loginAuthFail = error => {
   }
 }
 
-export const logoutUser = async () => {
+export const logoutUser = () => async dispatch => {
   dispatch(logoutPending())
+  dispatch(logoutSuccess())
   await AsyncStorage.setItem('loggedAppUser', null )
-    .then(response => {
-      console.log(response)
-    })
     .catch(error => dispatch(logoutFail(error)))
 }
 

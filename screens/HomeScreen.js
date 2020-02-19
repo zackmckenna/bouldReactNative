@@ -12,7 +12,7 @@ import { Input, Button, Card, ListItem } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
-import { loginUser } from '../redux/login'
+import { loginUser, logoutUser, logoutPending } from '../redux/login'
 import { getClimbs } from '../redux/climbs'
 import { MonoText } from '../components/StyledText';
 import { Avatar } from 'react-native-elements'
@@ -29,7 +29,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   loginUser,
-  getClimbs
+  getClimbs,
+  logoutUser
 }
 
 const HomeScreen = props => {
@@ -50,8 +51,15 @@ const HomeScreen = props => {
     await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
   }
 
+  const handleLogout = (event) => {
+    event.preventDefault()
+    props.logoutUser()
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
+    setUsername('')
+    setPassword('')
     try{
       console.log(username, password)
       await props.loginUser(username, password)
@@ -65,7 +73,7 @@ const HomeScreen = props => {
     setPassword('')
   }
 
-  if (!props.login.user.token){
+  if (!props.login.user || !props.login.user.token){
     return (
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -87,6 +95,7 @@ const HomeScreen = props => {
             />
             <Text style={styles.inputLabel}>username</Text>
             <TextInput
+              secureTextEntry={true}
               style={styles.input}
               value={password}
               onChangeText={password => setPassword(password)}/>
@@ -105,6 +114,11 @@ const HomeScreen = props => {
   } else {
     return (
       <View style={styles.container}>
+        <View style={{marginLeft: 300}}>
+        <Button
+          title='Log Out'
+          onPress={(event) => handleLogout(event)}/>
+        </View>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <Avatar style={styles.avatar}
             rounded
