@@ -5,7 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import VAvatar from '../components/VAvatar'
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
-import descriptions from '../constants/Descriptions'
+import difficultyDescriptions from '../constants/Descriptions'
 
 import { getClimbs } from '../redux/climbs'
 
@@ -43,23 +43,17 @@ const ClimbScreen = (props) => {
     <View >
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View >
-
-          <Text styl={{ fontWeight: 'bold' }}>My Climbs</Text>
+          <ListItem style={{ fontWeight: 'bold' }} title='My Climbs'/>
           {userClimbs.map((climb, index) => (
             <ListItem
               leftAvatar={<VAvatar difficulty={climb.setDifficulty}/>}
               key={index}
-              title={'V' + climb.setDifficulty}
-              subtitle={climb.result}
+              title={climb.result}
+              subtitle={difficultyDescriptions[climb.personalDifficulty]}
               bottomDivider
+              chevron
             />
           ))}
-          <FlatList
-            keyExtractor={keyExtractor}
-            data={userClimbs}
-            renderItem={({item}) => <Text key={item.key}>{item.result}</Text>}
-            />
-          {console.log('userClimbs', userClimbs)}
         </View>
       </ScrollView>
     </View>

@@ -1,8 +1,9 @@
-const resultDescriptions = [
-  'onsight',
-  'flash',
-  'redpoint',
-  'attempt'
+const difficultyDescriptions = [
+  'Very Easy',
+  'Easy',
+  'Average',
+  'Hard',
+  'Very Hard'
 ]
 
-export default resultDescriptions
+export default difficultyDescriptions
