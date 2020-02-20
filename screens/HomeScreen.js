@@ -40,20 +40,35 @@ const HomeScreen = props => {
   const [averageFlashgrade, setAverageFlashgrade] = React.useState(0)
 
   React.useEffect(() => {
+    retrievePersistentData()
     props.getClimbs()
     fetchAndSetUserClimbs()
   },[])
 
+  const retrievePersistentData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('loggedAppUser')
+        if (value !== null) {
+          console.log(value)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+  }
   const fetchAndSetUserClimbs = async () => {
     // await props.getClimbs()
     const climbArray = props.climbs.climbs.map(climb => climb.user.id === props.login.user.id ? climb : null)
     console.log(climbArray)
-    await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
+    await setUserClimbs(props.climbs.climbs.filter(climb => {
+      console.log(climb)
+      return climb.user.id === props.login.user.id}))
+
   }
 
-  const handleLogout = (event) => {
+  const handleLogout = async (event) => {
     event.preventDefault()
     props.logoutUser()
+    await AsyncStorage.setItem('loggedAppUser', null)
   }
 
   const handleLogin = async (event) => {
@@ -63,7 +78,7 @@ const HomeScreen = props => {
     try{
       console.log(username, password)
       await props.loginUser(username, password)
-      // climbService.setToken(props.login.user.token)
+      climbService.setToken(props.login.user.token)
       await AsyncStorage.setItem('loggedAppUser', props.login.user)
       await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
     } catch (error){
