@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,8 +11,11 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 import RegisterScreen from './screens/RegisterScreen';
 import AddClimbScreen from './screens/AddClimbScreen';
+import { PersistGate } from 'redux-persist/integration/react'
 
-const store = configureStore()
+// const store = configureStore()
+
+const { persistor, store } = configureStore()
 
 const Stack = createStackNavigator()
 
@@ -52,6 +55,9 @@ export default function App(props) {
     console.log()
     return (
       <Provider store={store}>
+        <PersistGate
+          loading={<ActivityIndicator />}
+          persistor={persistor}>
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
@@ -62,6 +68,7 @@ export default function App(props) {
              </Stack.Navigator>
           </NavigationContainer>
         </View>
+        </PersistGate>
       </Provider>
     )
   }
