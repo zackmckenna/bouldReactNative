@@ -30,10 +30,6 @@ const ClimbScreen = (props) => {
     fetchAndSetUserClimbs()
   }, [])
 
-  // React.useEffect(() => {
-  //   fetchAndSetUserClimbs()
-  // }, [props.login.user])
-
   const keyExtractor = (item, index) => index.toString()
 
   const fetchAndSetUserClimbs = async () => {

@@ -41,11 +41,11 @@ const HomeScreen = props => {
   const [averageFlashgrade, setAverageFlashgrade] = React.useState(0)
 
   React.useEffect(() => {
-    retrievePersistentData()
     props.getClimbs()
     fetchAndSetUserClimbs()
   },[])
 
+<<<<<<< HEAD
   const retrievePersistentData = async () => {
       try {
         const value = await AsyncStorage.getItem('loggedAppUser')
@@ -56,20 +56,25 @@ const HomeScreen = props => {
         console.log(error)
       }
   }
+=======
+>>>>>>> parent of d567951... changes to local storage
   const fetchAndSetUserClimbs = async () => {
     // await props.getClimbs()
     const climbArray = props.climbs.climbs.map(climb => climb.user.id === props.login.user.id ? climb : null)
     console.log(climbArray)
+<<<<<<< HEAD
     await setUserClimbs(props.climbs.climbs.filter(climb => {
       // console.log(climb)
       return climb.user.id === props.login.user.id}))
 
+=======
+    await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
+>>>>>>> parent of d567951... changes to local storage
   }
 
-  const handleLogout = async (event) => {
+  const handleLogout = (event) => {
     event.preventDefault()
     props.logoutUser()
-    await AsyncStorage.setItem('loggedAppUser', null)
   }
 
   const handleLogin = async (event) => {
@@ -78,6 +83,7 @@ const HomeScreen = props => {
     setPassword('')
     try{
       console.log(username, password)
+<<<<<<< HEAD
       props.loginUser(username, password)
       await AsyncStorage.setItem('loggedAppUser', JSON.stringify(props.login.user))
         .then(response => {
@@ -87,6 +93,12 @@ const HomeScreen = props => {
           console.log('There was an error saving the user')
         })
         // props.setUserClimbs(props.login.user.id)
+=======
+      await props.loginUser(username, password)
+      // climbService.setToken(props.login.user.token)
+      await AsyncStorage.setItem('loggedAppUser', props.login.user)
+      await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
+>>>>>>> parent of d567951... changes to local storage
     } catch (error){
       console.log(error)
     }
