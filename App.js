@@ -11,11 +11,10 @@ import BottomTabNavigator from './navigation/BottomTabNavigator';
 import useLinking from './navigation/useLinking';
 import RegisterScreen from './screens/RegisterScreen';
 import AddClimbScreen from './screens/AddClimbScreen';
-import { PersistGate } from 'redux-persist/integration/react'
+// import { PersistGate } from 'redux-persist/integration/react'
 
-// const store = configureStore()
+store = configureStore()
 
-const { persistor, store } = configureStore()
 
 const Stack = createStackNavigator()
 
@@ -55,9 +54,9 @@ export default function App(props) {
     console.log()
     return (
       <Provider store={store}>
-        <PersistGate
-          loading={<ActivityIndicator />}
-          persistor={persistor}>
+        {/* <PersistGate */}
+          {/* loading={<ActivityIndicator />}
+          persistor={persistor}> */}
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
           <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
@@ -68,7 +67,7 @@ export default function App(props) {
              </Stack.Navigator>
           </NavigationContainer>
         </View>
-        </PersistGate>
+        {/* </PersistGate> */}
       </Provider>
     )
   }
