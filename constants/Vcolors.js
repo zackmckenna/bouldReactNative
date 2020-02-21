@@ -10,7 +10,15 @@ const vColorArray = [
   '#542344',
   '#ed9b53',
   '#7E7F9A',
-  '#ff030b'
+  '#ff030b',
+  '#ff030b',
+  '#ff030b',
+  '#ff030b',
+  '#ff030b',
+  '#ff030b',
+  '#ff030b',
+  '#ff030b',
+  ''
 ]
 
 export default vColorArray

@@ -13,7 +13,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import * as WebBrowser from 'expo-web-browser';
 import { connect } from 'react-redux'
 import { loginUser, logoutUser, logoutPending } from '../redux/login'
-import { getClimbs } from '../redux/climbs'
+import { getClimbs, setUserClimbs } from '../redux/climbs'
 import { MonoText } from '../components/StyledText';
 import { Avatar } from 'react-native-elements'
 import climbService from '../services/climb'
@@ -30,7 +30,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   loginUser,
   getClimbs,
-  logoutUser
+  logoutUser,
+  setUserClimbs,
 }
 
 const HomeScreen = props => {
@@ -49,7 +50,7 @@ const HomeScreen = props => {
       try {
         const value = await AsyncStorage.getItem('loggedAppUser')
         if (value !== null) {
-          console.log(value)
+          console.log('persis data', value)
         }
       } catch (error) {
         console.log(error)
@@ -60,7 +61,7 @@ const HomeScreen = props => {
     const climbArray = props.climbs.climbs.map(climb => climb.user.id === props.login.user.id ? climb : null)
     console.log(climbArray)
     await setUserClimbs(props.climbs.climbs.filter(climb => {
-      console.log(climb)
+      // console.log(climb)
       return climb.user.id === props.login.user.id}))
 
   }
@@ -77,10 +78,15 @@ const HomeScreen = props => {
     setPassword('')
     try{
       console.log(username, password)
-      await props.loginUser(username, password)
-      climbService.setToken(props.login.user.token)
-      await AsyncStorage.setItem('loggedAppUser', props.login.user)
-      await setUserClimbs(props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id))
+      props.loginUser(username, password)
+      await AsyncStorage.setItem('loggedAppUser', JSON.stringify(props.login.user))
+        .then(response => {
+          console.log('stored successfully')
+        })
+        .catch(() => {
+          console.log('There was an error saving the user')
+        })
+        // props.setUserClimbs(props.login.user.id)
     } catch (error){
       console.log(error)
     }
@@ -139,11 +145,9 @@ const HomeScreen = props => {
             rounded
             />
           <Text style={styles.bould}>{props.login.user.username}</Text>
-            <Card containerStyle={{padding: 0}}>
-              <Text>Climbs: {userClimbs.length}</Text>
+              <Text style={styles.stats}>Climbs: {props.climbs.userClimbs ? props.climbs.userClimbs.length : 'log in to view climbs'}</Text>
               {/* {props.login.user ? <Text>{props.climbs.climbs.filter(climb => climb.user.id === props.login.user.id)}</Text> : null} */}
-              <Text>Average Flash Grade: </Text>
-            </Card>
+              <Text style={styles.stats}>Average Flash Grade: </Text>
           <View style={styles.login}>
           <Button
               style={[styles.loginButton, styles.blue]}
@@ -172,6 +176,10 @@ function handleHelpPress() {
 }
 
 const styles = StyleSheet.create({
+  stats: {
+    textAlign: 'center',
+    fontSize: 20
+  },
   createAccountLink: {
     marginTop: 20,
     textAlign: 'center',

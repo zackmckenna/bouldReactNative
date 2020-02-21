@@ -10,12 +10,19 @@ export const POST_CLIMB_SUCCESS = 'bould/redux/climbs/POST_CLIMB_SUCCESS';
 export const POST_CLIMB_FAIL = 'bould/redux/climbs/POST_CLIMB_FAIL';
 export const POST_CLIMB_PENDING = 'bould/redux/climbs/POST_CLIMB_PENDING';
 
+export const SET_USER_CLIMBS_SUCCESS = 'bould/redux/climbs/SET_USER_CLIMBS_SUCCESS'
+export const SET_USER_CLIMBS_FAIL = 'bould/redux/climbs/SET_USER_CLIMBS_FAIL'
+export const SET_USER_CLIMBS_PENDING= 'bould/redux/climbs/SET_USER_CLIMBS_PENDING'
+export const SET_USER_CLIMBS = 'bould/redux/climbs/SET_USER_CLIMBS'
+
 export default function reducer(state = { climbs: [] }, action) {
   switch (action.type) {
+    case SET_USER_CLIMBS_SUCCESS:
+      return {...state, userClimbs: state.climbs.filter(climb => climb.user.id === action.payload)}
     case POST_CLIMB_PENDING:
-      return { ...state, postClimbPending: true };
+      return { ...state, error: null, postClimbPending: true };
     case POST_CLIMB_SUCCESS:
-      return { ...state, climbs: [...state.climbs, action.payload], climbPosted: action.payload, postClimbPending: false };
+      return { ...state, userClimbs: [...state.userClimbs, action.payload], climbs: [...state.climbs, action.payload], climbPosted: action.payload, postClimbPending: false };
     case POST_CLIMB_FAIL:
       return {
         ...state,
@@ -34,6 +41,31 @@ export default function reducer(state = { climbs: [] }, action) {
       };
     default:
       return state;
+  }
+}
+
+export const setUserClimbs = (userId) => dispatch => {
+  console.log('user id located in setUserClimbs', userId)
+  dispatch(setUserClimbsSuccess(userId))
+}
+
+export const setUserClimbsSuccess = (climbs) => {
+  return {
+    type: SET_USER_CLIMBS_SUCCESS,
+    payload: climbs
+  }
+}
+
+export const setUserClimbsPending = () => {
+  return {
+    type: SET_USER_CLIMBS_SUCCESS
+  }
+}
+
+export const setUserClimbsFail = (error) => {
+  return {
+    type: SET_USER_CLIMBS_FAIL,
+    error: error
   }
 }
 
@@ -78,6 +110,7 @@ export const postClimb = (climb) => dispatch => {
   .then(response => response)
   .then(climb => {
     dispatch(postClimbSuccess(climb))
+    return climb
   })
   .catch(error => dispatch(postClimbFail(error)))
 }

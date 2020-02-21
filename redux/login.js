@@ -2,6 +2,7 @@ import { baseUrl } from '../constants/BaseUrl'
 import loginService from '../services/login'
 import climbService from '../services/climb'
 import { AsyncStorage } from 'react-native'
+import { setUserClimbs } from './climbs';
 
 export const LOGIN_AUTH_SET= 'bould/redux/login/LOGIN_AUTH_SET';
 export const LOGIN_AUTH_SUCCESS = 'bould/redux/login/LOGIN_AUTH_SUCCESS';
@@ -99,6 +100,7 @@ export const loginUser = (username, password) => dispatch => {
     .then(response => response.json())
     .then(user => {
       dispatch(loginAuthSuccess(user))
+      dispatch(setUserClimbs(user.id))
     })
     .catch(error => dispatch(loginAuthFail(error)))
 }

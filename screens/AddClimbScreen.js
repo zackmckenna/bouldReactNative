@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { TextInput, Image, Platform, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { TextInput,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button, Rating, ButtonGroup } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -30,7 +37,7 @@ const AddClimbScreen = props => {
   const [note, setNote] = React.useState('')
   const [difficultyButtonIndex, setDifficultyButtonIndex] = React.useState(0)
 
-  const handleAddClimb= () => {
+  const handleAddClimb = () => {
     if (resultButtonIndex < 3){
       setCompleted(true)
     }
@@ -75,13 +82,35 @@ const AddClimbScreen = props => {
   //   setSetDifficulty(rating)
   //   console.log('personal:', personalDifficulty)
   // }
-
+  if (props.climbs.postClimbPending) {
+    return (
+      <ActivityIndicator size='large' color='#0000ff'/>
+    )
+  }
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.setDifficultyView}>
           <View style={styles.setDifficulty}>
             <VAvatar size={'medium'} difficulty={setDifficulty} />
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <VAvatar size='small' difficulty={0}/>
+            <VAvatar size='small' difficulty={1}/>
+            <VAvatar size='small' difficulty={2}/>
+            <VAvatar size='small' difficulty={3}/>
+            <VAvatar size='small' difficulty={4}/>
+            <VAvatar size='small' difficulty={5}/>
+            <VAvatar size='small' difficulty={6}/>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <VAvatar size='small' difficulty={7}/>
+            <VAvatar size='small' difficulty={8}/>
+            <VAvatar size='small' difficulty={9}/>
+            <VAvatar size='small' difficulty={10}/>
+            <VAvatar size='small' difficulty={11}/>
+            <VAvatar size='small' difficulty={12}/>
+            <VAvatar size='small' difficulty={13}/>
           </View>
           <Rating
             type='heart'

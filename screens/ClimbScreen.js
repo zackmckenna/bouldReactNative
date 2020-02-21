@@ -48,7 +48,7 @@ const ClimbScreen = (props) => {
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <View >
           <ListItem style={{ fontWeight: 'bold' }} title='My Climbs'/>
-          {userClimbs.map((climb, index) => (
+          {props.climbs.userClimbs.map((climb, index) => (
             <ListItem
               leftAvatar={<VAvatar difficulty={climb.setDifficulty}/>}
               key={index}
